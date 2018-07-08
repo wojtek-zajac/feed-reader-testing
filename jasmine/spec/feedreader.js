@@ -25,8 +25,6 @@ $(function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
-
-
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
@@ -34,7 +32,7 @@ $(function() {
         it('have URLs defined', function() {
             for(feed of allFeeds) {
                 expect(feed.url).toBeDefined();
-                expect(feed.url.length).not.toBe(0);
+                expect(feed.url).not.toBe('');
             }
         });
 
@@ -46,7 +44,7 @@ $(function() {
         it('have names defined', function() {
             for(feed of allFeeds) {
                 expect(feed.name).toBeDefined();
-                expect(feed.name.length).not.toBe(0);
+                expect(feed.name).not.toBe('');
             }
         });
     });
@@ -59,8 +57,11 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-        it('is hidden', function() {
-            const body = $('body');
+        const body = $('body');
+        const menuIcon = $('.menu-icon-link');
+
+        // If 'body' contains the 'menu-hidden' class - the menu is hidden
+        it('is hidden by default', function() {
             expect(body.hasClass('menu-hidden')).toBe(true);
         });
          /* TODO: Write a test that ensures the menu changes
@@ -69,7 +70,15 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('changes its visibility when the menu icon is clicked', function() {
+            // Trigger a click - show the menu
+            menuIcon.click();
+            // If 'body' does not contain the 'menu-hidden' class - the menu is displayed
+            expect(body.hasClass('menu-hidden')).toBe(false);
 
+            // Trigger a click - hide the menu
+            menuIcon.click();
+            // If 'body' contains the 'menu-hidden' class - the menu is hidden
+            expect(body.hasClass('menu-hiddenn')).toBe(true);
         });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
