@@ -7,7 +7,7 @@
  */
 
 // The names and URLs to all of the feeds we'd like available.
-var allFeeds = [
+const allFeeds = [
     {
         name: 'Udacity Blog',
         url: 'http://blog.udacity.com/feed'
@@ -41,17 +41,17 @@ function init() {
  * which will be called after everything has run successfully.
  */
  function loadFeed(id, cb) {
-     var feedUrl = allFeeds[id].url,
-         feedName = allFeeds[id].name;
+     const feedUrl = allFeeds[id].url,
+           feedName = allFeeds[id].name;
 
      $.ajax({
        type: "POST",
        url: 'https://rsstojson.udacity.com/parseFeed',
        data: JSON.stringify({url: feedUrl}),
        contentType:"application/json",
-       success: function (result, status){
+       success: (result, status) => {
 
-                 var container = $('.feed'),
+               const container = $('.feed'),
                      title = $('.header-title'),
                      entries = result.feed.entries,
                      entriesLen = entries.length,
@@ -65,7 +65,7 @@ function init() {
                   * entryTemplate (created above using Handlebars) and append
                   * the resulting HTML to the list of entries on the page.
                   */
-                 entries.forEach(function(entry) {
+                 entries.forEach((entry) => {
                      container.append(entryTemplate(entry));
                  });
 
@@ -73,7 +73,7 @@ function init() {
                      cb();
                  }
                },
-       error: function (result, status, err){
+       error: (result, status, err) => {
                  //run only the callback without attempting to parse result due to error
                  if (cb) {
                      cb();
@@ -93,7 +93,7 @@ google.setOnLoadCallback(init);
  * until the DOM is ready.
  */
 $(function() {
-    var container = $('.feed'),
+    let container = $('.feed'),
         feedList = $('.feed-list'),
         feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
         feedId = 0,
@@ -105,7 +105,7 @@ $(function() {
      * above using Handlebars) and append it to the list of all
      * available feeds within the menu.
      */
-    allFeeds.forEach(function(feed) {
+    allFeeds.forEach((feed) => {
         feed.id = feedId;
         feedList.append(feedItemTemplate(feed));
 
@@ -116,8 +116,8 @@ $(function() {
      * the menu, load the feed, and prevent the default action
      * (following the link) from occurring.
      */
-    feedList.on('click', 'a', function() {
-        var item = $(this);
+    feedList.on('click', 'a', () => {
+        const item = $(this);
 
         $('body').addClass('menu-hidden');
         loadFeed(item.data('id'));
@@ -127,7 +127,7 @@ $(function() {
     /* When the menu icon is clicked on, we need to toggle a class
      * on the body to perform the hiding/showing of our menu.
      */
-    menuIcon.on('click', function() {
+    menuIcon.on('click', () => {
         $('body').toggleClass('menu-hidden');
     });
 }());
