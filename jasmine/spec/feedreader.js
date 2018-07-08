@@ -89,6 +89,7 @@ $(function() {
          */
 
         beforeEach(function(done) {
+            // Fetch the feed
             loadFeed(0, function() {
                 done();
             });
@@ -98,6 +99,7 @@ $(function() {
             // Get the number of entries = feed's length
             const entriesNum = $('.feed .entry').length;
 
+            // Ensure there is more than 0 entries
             expect(entriesNum).toBeGreaterThan(0);
 
             done();
@@ -110,8 +112,30 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it('changes the content', function() {
 
+        // Instantiate feeds to compare
+        let initialFeed,
+            newFeed;
+
+        beforeEach(function(done) {
+            // Initial feed fetch
+            loadFeed(0, function() {
+                // Store initial feed content
+                initialFeed = $('.feed').html();
+
+                // Fetch new feed
+                loadFeed(1, function() {
+                    // Store new feed content
+                    newFeed = $('.feed').html();
+                    
+                    done();
+                });
+            });
+        });
+
+        // Ensure the newer feed has different content than the initial one
+        it('has been displayed', function() {
+            expect(initialFeed).not.toBe(newFeed);
         });
     });
 }());
