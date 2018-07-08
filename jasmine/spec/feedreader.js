@@ -35,8 +35,6 @@ $(function() {
                 expect(feed.url).not.toBe('');
             }
         });
-
-
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
@@ -48,7 +46,6 @@ $(function() {
             }
         });
     });
-
 
     /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
@@ -78,9 +75,10 @@ $(function() {
             // Trigger a click - hide the menu
             menuIcon.click();
             // If 'body' contains the 'menu-hidden' class - the menu is hidden
-            expect(body.hasClass('menu-hiddenn')).toBe(true);
+            expect(body.hasClass('menu-hidden')).toBe(true);
         });
     });
+
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
         /* TODO: Write a test that ensures when the loadFeed
@@ -89,10 +87,23 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it('have at least a single entry', function() {
 
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                done();
+            });
+        });
+
+        it('have at least a single entry', function(done) {
+            // Get the number of entries = feed's length
+            const entriesNum = $('.feed .entry').length;
+
+            expect(entriesNum).toBeGreaterThan(0);
+
+            done();
         });
     });
+
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
         /* TODO: Write a test that ensures when a new feed is loaded
